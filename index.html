@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Todo List</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="todo-list-container">
+
+	
+	<div class="todo-list">
+		<p id="date"></p>
+		<p id="time"></p>
+		<div>
+			<input type="text" id="list-input" name="list-input" placeholder="Add new item">
+			<button id="list-bttn" onclick="checkEmpty()">Add to List</button>
+			<ul id="list">
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+	function printname(){
+		var new_item = document.getElementById("list-input").value;
+		var ul = document.getElementById("list");
+		var li = document.createElement("li");
+		var span = document.createElement("span");
+		span.className = "list-txt"
+		span.appendChild(document.createTextNode(new_item));
+		li.appendChild(span);
+		ul.appendChild(li);
+		var bttn_del = document.createElement("button");
+		bttn_del.innerText = "Delete";
+		li.appendChild(bttn_del);
+		bttn_del.className = "bttn_del push-right"
+		var bttn_complete = document.createElement("button");
+		bttn_complete.innerText = "Completed";
+		li.appendChild(bttn_complete);
+		bttn_complete.className = "bttn_complete push-right"
+		bttn_complete.addEventListener("click", changeBttn);
+		bttn_del.addEventListener("click", remove);
+		document.getElementById("list-input").value = ""
+}
+	function changeBttn(event) {
+        var listItem = event.target.parentElement; 
+        listItem.classList.toggle("completed"); 
+        var span = listItem.querySelector('.list-txt'); 
+        span.style.textDecoration = span.style.textDecoration === 'line-through' ? 'none' : 'line-through'; 
+        var button = listItem.querySelector('.bttn_complete');
+        button.style.backgroundColor = 'green';
+    	button.style.color = 'white';
+    }
+
+    function remove(event) {
+    	var listItem = event.target.parentElement; 
+    	listItem.remove();
+
+    }
+
+
+	function checkEmpty(){
+		var new_item = document.getElementById("list-input").value.trim(); // Trim whitespace
+		if (new_item === "") {
+			alert("Please enter a valid item."); // Display an alert if input is empty
+			return; // Exit function
+		}else {
+				printname();
+		}
+	}
+
+	document.getElementById("list-input").addEventListener("keyup", function(event) {
+		var new_item = document.getElementById("list-input").value.trim();
+			if (event.key === "Enter" && new_item !== ""){
+				printname();
+			}
+	});
+
+	function printDateTime() {
+            const currentDate = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayOfWeek = days[currentDate.getDay()];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const month = months[currentDate.getMonth()];
+            const formattedDate = dayOfWeek + ' ' + month + ' ' + currentDate.getDate() + ' ' + currentDate.getFullYear();
+
+            const formattedTime = currentDate.toLocaleTimeString();
+            document.getElementById('date').innerText = formattedDate;
+            document.getElementById('time').innerText = formattedTime;
+        }
+
+	var date = new Date();
+	document.getElementById("date").innerHTML = date;
+printDateTime();
+</script>
+</html>
+
